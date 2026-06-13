@@ -1,0 +1,85 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model User {
+    id Int @id @default(autoincrement())
+
+    login    String @unique
+    password String
+
+    status Boolean  @default(true)
+    role   UserRole @default(USER)
+
+    surname    String
+    firstName  String
+    secondName String
+
+    salt String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Wagon {
+    id     Int    @id @default(autoincrement())
+    number String @unique
+
+    typeId Int?
+    type   WagonType? @relation(fields: [typeId], references: [id])
+
+    ownerId Int?
+    owner   WagonOwner? @relation(fields: [ownerId], references: [id])
+
+    barPackage Decimal @db.Decimal(10, 3) //тара с бруса (т)
+    capacity   Decimal @db.Decimal(10, 3) //Грузоподъемность (т)
+    volume     Decimal @db.Decimal(10, 3) //Объем (м³)
+
+    @@index([typeId])
+    @@index([ownerId])
+}
+
+model WagonType {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+
+    wagons Wagon[]
+}
+
+model WagonOwner {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+
+    wagons Wagon[]
+}
+
+model InsideStation {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+}
+
+model OutsideStation {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+    code String @unique
+}
+
+model Cargo {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+
+    nationalCode      String @unique
+    internationalCode String @unique
+}
+
+// ENUMS
+
+enum UserRole {
+    USER
+    ADMIN
+}
