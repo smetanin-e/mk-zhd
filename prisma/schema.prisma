@@ -22,6 +22,8 @@ model User {
 
     salt String?
 
+    auditLogs AuditLog[]
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -272,6 +274,27 @@ model Station {
     @@map("Stations")
 }
 
+model AuditLog {
+    id String @id @default(uuid())
+
+    entityType String @map("entity_type")
+    entityId   String @map("entity_id")
+
+    action AuditAction
+
+    oldData Json? @map("old_data")
+    newData Json? @map("new_data")
+
+    userId String? @map("user_id")
+    user   User?   @relation(fields: [userId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+
+    @@index([entityType])
+    @@index([entityId])
+    @@map("Audit_logs")
+}
+
 enum UserRole {
     USER
     ADMIN
@@ -305,4 +328,9 @@ enum BatchType {
 enum TripStatus {
     ACTIVE // Активен
     COMPLETED // Завершен
+}
+
+enum AuditAction {
+    CREATE
+    UPDATE
 }
