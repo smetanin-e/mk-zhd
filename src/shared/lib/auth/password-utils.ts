@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
 
 export function hashPassword(password: string, salt: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -21,24 +20,4 @@ export async function verifyPassword(
 ): Promise<boolean> {
   const hash = await hashPassword(inputPassword, storedSalt);
   return storedHash === hash;
-}
-
-//Утилиты для генерации токена клиента по которому он будет проверять баланс
-export function generateAccessToken() {
-  const tokenId = crypto.randomBytes(8).toString('hex');
-  const secret = crypto.randomBytes(32).toString('hex');
-
-  return {
-    tokenId,
-    secret,
-    fullToken: `${tokenId}.${secret}`,
-  };
-}
-
-export async function hashToken(secret: string) {
-  return bcrypt.hash(secret, 10);
-}
-
-export async function verifyToken(secret: string, hash: string) {
-  return bcrypt.compare(secret, hash);
 }

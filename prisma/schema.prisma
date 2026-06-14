@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-    id Int @id @default(autoincrement())
+    id String @id @default(uuid())
 
     login    String @unique
     password String
@@ -17,69 +17,292 @@ model User {
     role   UserRole @default(USER)
 
     surname    String
-    firstName  String
-    secondName String
+    firstName  String @map("first_name")
+    secondName String @map("second_name")
 
     salt String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@map("Users")
+}
+
+model Batch {
+    id String @id @default(uuid())
+
+    direction BatchDirection
+    type      BatchType
+
+    documentNumber String @map("document_number")
+
+    startedAt DateTime @map("started_at")
+
+    cargoOwnerId String      @map("cargo_owner_id")
+    cargoOwner   CargoOwner? @relation(fields: [cargoOwnerId], references: [id])
+
+    cargoId String? @map("cargo_id")
+    cargo   Cargo?  @relation(fields: [cargoId], references: [id])
+
+    fromStationId String  @map("from_station_id")
+    fromStation   Station @relation("FromStation", fields: [fromStationId], references: [id])
+
+    toStationId String  @map("to_station_id")
+    toStation   Station @relation("ToStation", fields: [toStationId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    //wagonStates WagonState[]
+    trips Trip[]
+
+    @@unique([type, documentNumber])
+    @@index([direction])
+    @@index([type])
+    @@map("Batches")
+}
+
+model Trip {
+    id String @id @default(uuid())
+
+    wagonId String @map("wagon_id")
+    wagon   Wagon  @relation(fields: [wagonId], references: [id])
+
+    batchId String @map("batch_id")
+    batch   Batch  @relation(fields: [batchId], references: [id])
+
+    // Исторический снимок на момент прибытия
+    arrivalCargoId String? @map("arrival_cargo_id")
+    arrivalCargo   Cargo?  @relation(fields: [arrivalCargoId], references: [id])
+
+    arrivalCargoWeight Decimal? @map("arrival_cargo_weight") @db.Decimal(10, 3)
+    arrivalWagonWeight Decimal? @map("arrival_wagon_weight") @db.Decimal(10, 3)
+
+    startedAt  DateTime  @map("started_at")
+    finishedAt DateTime? @map("finished_at")
+
+    status TripStatus @default(ACTIVE)
+
+    states     WagonState[]
+    operations WagonOperation[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([wagonId])
+    @@index([batchId])
+    @@map("Trips")
+}
+
+model WagonState {
+    id String @id @default(uuid())
+
+    tripId String @map("trip_id")
+    trip   Trip   @relation(fields: [tripId], references: [id])
+
+    wagonId String @map("wagon_id")
+    wagon   Wagon  @relation(fields: [wagonId], references: [id])
+
+    stationId String  @map("station_id")
+    station   Station @relation(fields: [stationId], references: [id])
+
+    cargoId String? @map("cargo_id")
+    cargo   Cargo?  @relation(fields: [cargoId], references: [id])
+
+    isEmpty Boolean @map("is_empty")
+
+    startedAt DateTime  @map("started_at")
+    endedAt   DateTime? @map("ended_at")
+
+    // Какая операция породила это состояние
+    createdByOperationId String?         @unique @map("created_by_operation_id")
+    createdByOperation   WagonOperation? @relation("OperationCreatesState", fields: [createdByOperationId], references: [id])
+    createdAt            DateTime        @default(now()) @map("created_at")
+    updatedAt            DateTime        @updatedAt @map("updated_at")
+
+    @@index([wagonId])
+    @@index([tripId])
+    @@index([stationId])
+    @@index([endedAt])
+    @@index([tripId, startedAt])
+    @@map("Wagon_states")
+}
+
+model WagonOperation {
+    id String @id @default(uuid())
+
+    tripId String @map("trip_id")
+    trip   Trip   @relation(fields: [tripId], references: [id])
+
+    typeId String        @map("type_id")
+    type   OperationType @relation(fields: [typeId], references: [id])
+
+    // Исторический снимок типа операции
+    typeName String @map("type_name")
+
+    normative Decimal @db.Decimal(10, 3)
+
+    startedAt DateTime  @map("started_at")
+    endedAt   DateTime? @map("ended_at")
+
+    // Результаты операции (если есть)
+    wagonWeight Decimal? @map("wagon_weight") @db.Decimal(10, 3)
+    cargoWeight Decimal? @map("cargo_weight") @db.Decimal(10, 3)
+
+    createdState WagonState? @relation("OperationCreatesState")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([tripId])
+    @@index([typeId])
+    @@index([startedAt])
+    @@index([endedAt])
+    @@index([tripId, startedAt])
+    @@map("Wagon_operations")
+}
+
+model OperationType {
+    id String @id @default(uuid())
+
+    name String @unique
+
+    normative Decimal @db.Decimal(10, 3)
+
+    // Пока операция выполняется,
+    // разрешено существование других операций
+    allowsParallel Boolean @default(false) @map("allows_parallel")
+
+    category OperationCategory
+
+    operations WagonOperation[]
+
+    @@map("Operation_types")
 }
 
 model Wagon {
-    id     Int    @id @default(autoincrement())
-    number String @unique
-
-    typeId Int?
-    type   WagonType? @relation(fields: [typeId], references: [id])
-
-    ownerId Int?
-    owner   WagonOwner? @relation(fields: [ownerId], references: [id])
-
-    barPackage Decimal @db.Decimal(10, 3) //тара с бруса (т)
-    capacity   Decimal @db.Decimal(10, 3) //Грузоподъемность (т)
-    volume     Decimal @db.Decimal(10, 3) //Объем (м³)
+    id              String         @id @default(uuid())
+    number          String         @unique
+    affiliationType WagonOwnership @map("affiliation_type")
+    typeId          String         @map("type_id")
+    ownerId         String         @map("owner_id")
+    barPackage      Decimal        @map("bar_package") @db.Decimal(10, 3) //тара с бруса (т)
+    capacity        Decimal        @db.Decimal(10, 3) //Грузоподъемность (т)
+    volume          Decimal        @db.Decimal(10, 3) //Объем (м³)
+    createdAt       DateTime       @default(now()) @map("created_at")
+    updatedAt       DateTime       @updatedAt @map("updated_at")
+    owner           WagonOwner     @relation(fields: [ownerId], references: [id], onDelete: Restrict)
+    type            WagonType      @relation(fields: [typeId], references: [id], onDelete: Restrict)
+    states          WagonState[]
+    trips           Trip[]
 
     @@index([typeId])
     @@index([ownerId])
+    @@map("Wagons")
 }
 
 model WagonType {
-    id   Int    @id @default(autoincrement())
-    name String @unique
+    id           String @id @default(uuid())
+    name         String @unique
+    numberPrefix String @map("number_prefix") // Префикс с которого должен начинаться номер вагона. Например: "3" или "34" - 3 или 4
 
-    wagons Wagon[]
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    wagons    Wagon[]
+
+    @@map("Wagon_types")
 }
 
 model WagonOwner {
-    id   Int    @id @default(autoincrement())
-    name String @unique
+    id        String   @id @default(uuid())
+    name      String   @unique
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    wagons    Wagon[]
 
-    wagons Wagon[]
+    @@map("Wagon_owners")
 }
 
-model InsideStation {
-    id   Int    @id @default(autoincrement())
+model CargoOwner {
+    id   String @id @default(uuid())
     name String @unique
-}
 
-model OutsideStation {
-    id   Int    @id @default(autoincrement())
-    name String @unique
-    code String @unique
+    // Связь с партиями
+    batches Batch[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("Cargo_owners")
 }
 
 model Cargo {
-    id   Int    @id @default(autoincrement())
-    name String @unique
+    id                String   @id @default(uuid())
+    name              String   @unique
+    nationalCode      String   @unique @map("national_code") // ГНГ
+    internationalCode String   @unique @map("international_code") // ЕГСНГ
+    createdAt         DateTime @default(now()) @map("created_at")
+    updatedAt         DateTime @updatedAt @map("updated_at")
 
-    nationalCode      String @unique
-    internationalCode String @unique
+    batches     Batch[]
+    wagonStates WagonState[]
+    trips       Trip[]
+
+    @@map("Cargos")
 }
 
-// ENUMS
+model Station {
+    id   String      @id @default(uuid())
+    name String      @unique
+    code String?     @unique
+    type StationType
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    wagonStates WagonState[]
+
+    // партии, где станция — ОТКУДА
+    fromBatches Batch[] @relation("FromStation")
+
+    // партии, где станция — КУДА
+    toBatches Batch[] @relation("ToStation")
+
+    @@index([type])
+    @@map("Stations")
+}
 
 enum UserRole {
     USER
     ADMIN
+}
+
+enum OperationCategory {
+    ACTIVE
+    PASSIVE
+}
+
+enum StationType {
+    INTERNAL
+    EXTERNAL
+}
+
+enum WagonOwnership {
+    OWN // принадлежит вашему предприятию (Имеет номера разных форматов)
+    LEASED // арендованный (имеет 8-ми значный номер и зависит от типа вагона)
+}
+
+enum BatchDirection {
+    INBOUND // входящая
+    OUTBOUND // исходящая
+}
+
+enum BatchType {
+    WAYBILL // по накладной
+    ROUTE_SHEET // по вагонному листу
+}
+
+enum TripStatus {
+    ACTIVE // Активен
+    COMPLETED // Завершен
 }
