@@ -9,3 +9,4 @@ export * from './dialog';
 export * from './field';
 export * from './table';
 export * from './tabs';
+export * from './navigation-menu';

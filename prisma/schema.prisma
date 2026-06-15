@@ -301,8 +301,8 @@ enum UserRole {
 }
 
 enum OperationCategory {
-    ACTIVE
-    PASSIVE
+    PRIMARY
+    SECONDARY
 }
 
 enum StationType {
@@ -312,7 +312,7 @@ enum StationType {
 
 enum WagonOwnership {
     OWN // принадлежит вашему предприятию (Имеет номера разных форматов)
-    LEASED // арендованный (имеет 8-ми значный номер и зависит от типа вагона)
+    RENTED // арендованный (имеет 8-ми значный номер и зависит от типа вагона)
 }
 
 enum BatchDirection {
