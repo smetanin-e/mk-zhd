@@ -24,6 +24,7 @@ export interface Directory {
   id: string;
   /** Название модели в Prisma */
   model: DirectoryModel;
+
   /** Человекочитаемое название справочника */
   title: string;
   /** Поля формы / колонки таблицы */

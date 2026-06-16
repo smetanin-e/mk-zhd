@@ -22,7 +22,7 @@ export function FormInput({ name, label, description, placeholder, type = 'text'
   return (
     <Field>
       {label && <FieldLabel htmlFor={name}>{label}</FieldLabel>}
-
+      {description && <FieldDescription>{description}</FieldDescription>}
       <Input
         id={name}
         type={type}
@@ -31,9 +31,7 @@ export function FormInput({ name, label, description, placeholder, type = 'text'
         {...register(name)}
       />
 
-      {description && <FieldDescription>{description}</FieldDescription>}
-
-      {errorText && <p className='text-sm text-destructive'>{errorText}</p>}
+      {errorText && <p className='-mt-2 text-[10px] text-destructive'>{errorText}</p>}
     </Field>
   );
 }

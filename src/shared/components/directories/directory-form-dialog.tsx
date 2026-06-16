@@ -17,16 +17,23 @@ import {
 
 import { FieldRenderer } from '../form';
 import { Directory } from '@/src/features/directories/types/directories.types';
-
+import { createDirectoryItem } from '@/src/features/directories/wagon-type/wagon-type.actions';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { directoryClientRegistry } from '@/src/features/directories/registry/directory-client-registry';
+import { FieldValues } from 'react-hook-form';
 interface DirectoryFormDialogProps {
   directory: Directory;
 }
 
 export function DirectoryFormDialog({ directory }: DirectoryFormDialogProps) {
-  const form = useForm();
+  const schema = directoryClientRegistry[directory.model].createSchema;
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const form = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit = async (data: FieldValues) => {
+    await createDirectoryItem(directory.model, data);
   };
   return (
     <Dialog>

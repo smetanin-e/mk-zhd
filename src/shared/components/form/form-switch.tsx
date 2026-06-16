@@ -34,7 +34,7 @@ export function FormSwitch({ name, label, description }: Props) {
 
         {description && <FieldDescription>{description}</FieldDescription>}
 
-        {errorText && <p className='text-sm text-destructive'>{errorText}</p>}
+        {errorText && <p className='-mt-2 text-[10px] text-sm text-destructive'>{errorText}</p>}
       </div>
     </Field>
   );
