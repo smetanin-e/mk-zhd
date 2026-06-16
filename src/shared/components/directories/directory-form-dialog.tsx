@@ -17,7 +17,7 @@ import {
 
 import { FieldRenderer } from '../form';
 import { Directory } from '@/src/features/directories/types/directories.types';
-import { createDirectoryItem } from '@/src/features/directories/wagon-type/wagon-type.actions';
+import { createDirectoryItem } from '@/src/features/directories/actions/create-directory-item.action';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { directoryClientRegistry } from '@/src/features/directories/registry/directory-client-registry';
 import { FieldValues } from 'react-hook-form';

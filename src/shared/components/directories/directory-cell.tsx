@@ -7,6 +7,10 @@ interface Props {
 }
 
 export function DirectoryCell({ value, field }: Props) {
+  if (!value) {
+    return <>{'-'}</>;
+  }
+
   if (field.options) {
     const option = field.options.find((opt) => opt.value === value);
 

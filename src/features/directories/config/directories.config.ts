@@ -5,6 +5,11 @@
 import { SelectOption } from '@/src/shared/interfaces/form-select.interface';
 import { Directory } from '../types/directories.types';
 
+export enum StationType {
+  INTERNAL = 'INTERNAL',
+  EXTERNAL = 'EXTERNAL',
+}
+
 const operationCategoryOptions: SelectOption[] = [
   { value: 'PRIMARY', label: 'Основная' },
   { value: 'SECONDARY', label: 'Второстепенная' },
@@ -16,8 +21,8 @@ const wagonOwnershipOptions: SelectOption[] = [
 ];
 
 const stationTypeOptions: SelectOption[] = [
-  { value: 'INTERNAL', label: 'Внутренняя' },
-  { value: 'EXTERNAL', label: 'Внешняя' },
+  { value: StationType.INTERNAL, label: 'Внутренняя' },
+  { value: StationType.EXTERNAL, label: 'Внешняя' },
 ];
 
 export const DIRECTORIES_CONFIG: Directory[] = [
@@ -198,6 +203,13 @@ export const DIRECTORIES_CONFIG: Directory[] = [
     title: 'Станции',
     fields: [
       {
+        name: 'type',
+        label: 'Тип станции',
+        type: 'select',
+        required: true,
+        options: stationTypeOptions,
+      },
+      {
         name: 'name',
         label: 'Наименование',
         type: 'text',
@@ -205,7 +217,6 @@ export const DIRECTORIES_CONFIG: Directory[] = [
         placeholder: 'Например: Москва-Сортировочная',
       },
       { name: 'code', label: 'Код', type: 'text', placeholder: 'Например: 195006' },
-      { name: 'type', label: 'Тип', type: 'select', required: true, options: stationTypeOptions },
     ],
   },
 ];

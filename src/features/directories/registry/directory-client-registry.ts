@@ -1,10 +1,11 @@
 import { ZodType } from 'zod';
 import { DirectoryModel } from '../types/directory-models';
-import { createWagonTypeSchema, updateWagonTypeSchema } from '../wagon-type/wagon-type.schema';
+import { WagonTypeClientConfig } from '../wagon-type/wagon-type-client.config';
+import { WagonOwnerClientConfig } from '../wagon-owner/wagon-owner-client.config';
+import { StationClientConfig } from '../station/station-client.config';
 
 export const directoryClientRegistry = {
-  WagonType: {
-    createSchema: createWagonTypeSchema,
-    updateSchema: updateWagonTypeSchema,
-  },
-} satisfies Partial<Record<DirectoryModel, { createSchema: ZodType; updateSchema: ZodType }>>;
+  WagonType: WagonTypeClientConfig,
+  WagonOwner: WagonOwnerClientConfig,
+  Station: StationClientConfig,
+} satisfies Partial<Record<DirectoryModel, { createSchema: ZodType; updateSchema?: ZodType }>>;

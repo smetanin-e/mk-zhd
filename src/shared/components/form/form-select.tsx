@@ -41,8 +41,9 @@ export function FormSelect({
       <Controller
         name={name}
         control={control}
+        defaultValue={''}
         render={({ field }) => (
-          <Select value={field.value} onValueChange={field.onChange}>
+          <Select value={field.value ?? ''} onValueChange={field.onChange}>
             <SelectTrigger className='w-full'>
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>

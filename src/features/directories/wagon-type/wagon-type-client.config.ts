@@ -1,8 +1,6 @@
 import { createWagonTypeSchema, updateWagonTypeSchema } from './wagon-type.schema';
-import { createWagonType } from './wagon-type.service';
 
-export const WagonTypeConfig = {
+export const WagonTypeClientConfig = {
   createSchema: createWagonTypeSchema,
   updateSchema: updateWagonTypeSchema,
-  createAction: createWagonType,
 };
