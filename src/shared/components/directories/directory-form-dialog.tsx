@@ -21,11 +21,15 @@ import { createDirectoryItem } from '@/src/features/directories/actions/create-d
 import { zodResolver } from '@hookform/resolvers/zod';
 import { directoryClientRegistry } from '@/src/features/directories/registry/directory-client-registry';
 import { FieldValues } from 'react-hook-form';
+import { DirectoryOptionsMap } from '@/src/features/directories/types/directory-options-map';
+
 interface DirectoryFormDialogProps {
   directory: Directory;
+  directoryOptions: DirectoryOptionsMap;
 }
 
-export function DirectoryFormDialog({ directory }: DirectoryFormDialogProps) {
+export function DirectoryFormDialog({ directory, directoryOptions }: DirectoryFormDialogProps) {
+  // TODO ОШИБКА ПРОПАДЕТ КОГДА ВСЕ ТИПЫ БУДУТ ПРОПИСАНЫ В directoryClientRegistry
   const schema = directoryClientRegistry[directory.model].createSchema;
 
   const form = useForm({
@@ -59,7 +63,7 @@ export function DirectoryFormDialog({ directory }: DirectoryFormDialogProps) {
           >
             <FieldGroup>
               {directory.fields.map((field) => (
-                <FieldRenderer key={field.name} field={field} />
+                <FieldRenderer key={field.name} field={field} directoryOptions={directoryOptions} />
               ))}
             </FieldGroup>
           </form>

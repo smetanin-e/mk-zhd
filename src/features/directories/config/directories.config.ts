@@ -4,10 +4,16 @@
 
 import { SelectOption } from '@/src/shared/interfaces/form-select.interface';
 import { Directory } from '../types/directories.types';
+import { FIELD_TYPES } from '@/src/shared/constants/form-field-types';
 
 export enum StationType {
   INTERNAL = 'INTERNAL',
   EXTERNAL = 'EXTERNAL',
+}
+
+export enum WagonOwnership {
+  OWN = 'OWN', // принадлежит вашему предприятию (Имеет номера разных форматов)
+  RENTED = 'RENTED', // арендованный (имеет 8-ми значный номер и зависит от типа вагона)
 }
 
 const operationCategoryOptions: SelectOption[] = [
@@ -46,26 +52,18 @@ export const DIRECTORIES_CONFIG: Directory[] = [
         options: wagonOwnershipOptions,
       },
       {
-        name: 'type',
+        name: 'typeId',
         label: 'Тип вагона',
-        type: 'select',
+        type: FIELD_TYPES.DIRECTORY_SELECT,
         required: true,
-        options: [
-          { value: '1', label: 'Полувагон' },
-          { value: '2', label: 'Цистерна' },
-          { value: '3', label: 'Платформа' },
-        ],
+        directory: 'WagonType',
       },
       {
-        name: 'owner',
+        name: 'ownerId',
         label: 'Владелец',
-        type: 'select',
         required: true,
-        options: [
-          { value: '1', label: 'РЖД' },
-          { value: '2', label: 'ПГК' },
-          { value: '3', label: 'ФГК' },
-        ],
+        type: FIELD_TYPES.DIRECTORY_SELECT,
+        directory: 'WagonOwner',
       },
       {
         name: 'barPackage',

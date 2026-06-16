@@ -6,5 +6,6 @@ export async function getDirectory<T extends keyof typeof directoryRepository>(m
   } catch (error) {
     //TODO ДОБАВИТЬ LOGGER
     console.log(error);
+    return [];
   }
 }

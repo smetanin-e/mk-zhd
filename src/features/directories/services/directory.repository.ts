@@ -8,6 +8,7 @@ import {
   WagonType,
 } from '@/generated/prisma/client';
 import { prisma } from '@/src/shared/lib/prisma';
+import { serializePrisma } from '@/src/shared/lib/serialize-prisma';
 
 type DirectoryRepository = {
   Wagon: () => Promise<Wagon[]>;
@@ -21,7 +22,11 @@ type DirectoryRepository = {
 
 export const directoryRepository: DirectoryRepository = {
   WagonType: () => prisma.wagonType.findMany(),
-  Wagon: () => prisma.wagon.findMany(),
+  Wagon: async () => {
+    const wagons = await prisma.wagon.findMany();
+
+    return serializePrisma(wagons);
+  },
   WagonOwner: () => prisma.wagonOwner.findMany(),
   CargoOwner: () => prisma.cargoOwner.findMany(),
   Cargo: () => prisma.cargo.findMany(),

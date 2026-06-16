@@ -1,23 +1,43 @@
-import { FieldType } from '@/src/shared/constants/form-field-types';
+import { FIELD_TYPES } from '@/src/shared/constants/form-field-types';
 import { SelectOption } from '@/src/shared/interfaces/form-select.interface';
 import { DirectoryModel } from './directory-models';
 
-export interface DirectoryField {
-  /** Ключ поля (имя свойства модели) */
+interface BaseField {
   name: string;
-  /** Подпись поля в форме и заголовок колонки */
   label: string;
-  /** Тип поля — определяет, какой контрол показать */
-  type: FieldType;
-  /** Подсказка/описание под полем */
   description?: string;
-  /** Плейсхолдер для текстовых и числовых полей */
   placeholder?: string;
-  /** Обязательное поле */
   required?: boolean;
-  /** Варианты выбора для type === "select" */
-  options?: SelectOption[];
 }
+
+interface TextField extends BaseField {
+  type: typeof FIELD_TYPES.TEXT;
+}
+
+interface NumberField extends BaseField {
+  type: typeof FIELD_TYPES.NUMBER;
+}
+
+interface BooleanField extends BaseField {
+  type: typeof FIELD_TYPES.BOOLEAN;
+}
+
+interface SelectField extends BaseField {
+  type: typeof FIELD_TYPES.SELECT;
+  options: SelectOption[];
+}
+
+interface DirectorySelectField extends BaseField {
+  type: typeof FIELD_TYPES.DIRECTORY_SELECT;
+  directory: DirectoryModel;
+}
+
+export type DirectoryField =
+  | TextField
+  | NumberField
+  | BooleanField
+  | SelectField
+  | DirectorySelectField;
 
 export interface Directory {
   /** Уникальный идентификатор (значение таба) */

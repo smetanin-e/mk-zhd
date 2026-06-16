@@ -2,14 +2,16 @@ import { DirectoryFormDialog } from './directory-form-dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui';
 import { Directory } from '@/src/features/directories/types/directories.types';
 import { DirectoryCell } from './directory-cell';
+import { DirectoryOptionsMap } from '@/src/features/directories/types/directory-options-map';
 
 type DirectoryItem = Record<string, unknown>;
 interface DirectoryContentProps {
   directory: Directory;
   items: DirectoryItem[];
+  directoryOptions: DirectoryOptionsMap;
 }
 
-export function DirectoryContent({ directory, items }: DirectoryContentProps) {
+export function DirectoryContent({ directory, items, directoryOptions }: DirectoryContentProps) {
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex items-center justify-between gap-4'>
@@ -17,7 +19,7 @@ export function DirectoryContent({ directory, items }: DirectoryContentProps) {
           <h2 className='text-base font-medium'>{directory.title}</h2>
           <p className='text-sm text-muted-foreground'>{`Элементов: ${items.length}`}</p>
         </div>
-        <DirectoryFormDialog directory={directory} />
+        <DirectoryFormDialog directory={directory} directoryOptions={directoryOptions} />
       </div>
 
       <div className='rounded-lg border'>
@@ -44,7 +46,11 @@ export function DirectoryContent({ directory, items }: DirectoryContentProps) {
                 <TableRow key={String(item.id)}>
                   {directory.fields.map((field) => (
                     <TableCell key={field.name}>
-                      <DirectoryCell value={item[field.name]} field={field} />
+                      <DirectoryCell
+                        value={item[field.name]}
+                        field={field}
+                        directoryOptions={directoryOptions}
+                      />
                     </TableCell>
                   ))}
                 </TableRow>
