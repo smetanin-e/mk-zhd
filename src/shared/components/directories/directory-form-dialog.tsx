@@ -29,7 +29,6 @@ interface DirectoryFormDialogProps {
 }
 
 export function DirectoryFormDialog({ directory, directoryOptions }: DirectoryFormDialogProps) {
-  // TODO ОШИБКА ПРОПАДЕТ КОГДА ВСЕ ТИПЫ БУДУТ ПРОПИСАНЫ В directoryClientRegistry
   const schema = directoryClientRegistry[directory.model].createSchema;
 
   const form = useForm({

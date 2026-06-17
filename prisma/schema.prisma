@@ -204,9 +204,8 @@ model Wagon {
 }
 
 model WagonType {
-    id           String @id @default(uuid())
-    name         String @unique
-    numberPrefix String @map("number_prefix") // Префикс с которого должен начинаться номер вагона. Например: "3" или "34" - 3 или 4
+    id   String @id @default(uuid())
+    name String @unique
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")

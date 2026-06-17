@@ -1,14 +1,9 @@
 'use server';
 
-import {
-  directoryServerRegistry,
-  ServerDirectoryModel,
-} from '../registry/directory-server-registry';
+import { directoryServerRegistry } from '../registry/directory-server-registry';
+import { DirectoryModel } from '../types/directory-models';
 
-export async function createDirectoryItem(
-  model: ServerDirectoryModel,
-  data: Record<string, unknown>,
-) {
+export async function createDirectoryItem(model: DirectoryModel, data: Record<string, unknown>) {
   try {
     const config = directoryServerRegistry[model];
 

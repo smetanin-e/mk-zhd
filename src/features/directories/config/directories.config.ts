@@ -6,6 +6,11 @@ import { SelectOption } from '@/src/shared/interfaces/form-select.interface';
 import { Directory } from '../types/directories.types';
 import { FIELD_TYPES } from '@/src/shared/constants/form-field-types';
 
+export enum OperationCategory {
+  PRIMARY = 'PRIMARY',
+  SECONDARY = 'SECONDARY',
+}
+
 export enum StationType {
   INTERNAL = 'INTERNAL',
   EXTERNAL = 'EXTERNAL',
@@ -17,8 +22,8 @@ export enum WagonOwnership {
 }
 
 const operationCategoryOptions: SelectOption[] = [
-  { value: 'PRIMARY', label: 'Основная' },
-  { value: 'SECONDARY', label: 'Второстепенная' },
+  { value: OperationCategory.PRIMARY, label: 'Основная' },
+  { value: OperationCategory.SECONDARY, label: 'Второстепенная' },
 ];
 
 const wagonOwnershipOptions: SelectOption[] = [
@@ -128,14 +133,6 @@ export const DIRECTORIES_CONFIG: Directory[] = [
         type: 'text',
         required: true,
         placeholder: 'Например: Полувагон',
-      },
-      {
-        name: 'numberPrefix',
-        label: 'Префикс номера',
-        type: 'text',
-        required: true,
-        description: 'Префикс, с которого должен начинаться номер вагона',
-        placeholder: 'Например: 3',
       },
     ],
   },
