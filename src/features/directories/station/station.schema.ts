@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { StationType } from '../config/directories.config';
+import { StationType } from '../config/directories.enums';
 
 export const createStationSchema = z.discriminatedUnion('type', [
   // Схема для INTERNAL станций

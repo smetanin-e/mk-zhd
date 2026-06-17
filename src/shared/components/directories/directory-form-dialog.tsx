@@ -1,6 +1,5 @@
 'use client';
 
-import { useForm, FormProvider } from 'react-hook-form';
 import { PlusIcon } from 'lucide-react';
 import {
   Button,
@@ -18,10 +17,12 @@ import {
 import { FieldRenderer } from '../form';
 import { Directory } from '@/src/features/directories/types/directories.types';
 import { createDirectoryItem } from '@/src/features/directories/actions/create-directory-item.action';
-import { zodResolver } from '@hookform/resolvers/zod';
+
 import { directoryClientRegistry } from '@/src/features/directories/registry/directory-client-registry';
-import { FieldValues } from 'react-hook-form';
+
 import { DirectoryOptionsMap } from '@/src/features/directories/types/directory-options-map';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 interface DirectoryFormDialogProps {
   directory: Directory;
@@ -32,7 +33,8 @@ export function DirectoryFormDialog({ directory, directoryOptions }: DirectoryFo
   const schema = directoryClientRegistry[directory.model].createSchema;
 
   const form = useForm({
-    resolver: zodResolver(schema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(schema as any),
   });
 
   const onSubmit = async (data: FieldValues) => {

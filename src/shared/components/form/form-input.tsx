@@ -28,7 +28,9 @@ export function FormInput({ name, label, description, placeholder, type = 'text'
         type={type}
         placeholder={placeholder}
         step={type === 'number' ? 'any' : undefined}
-        {...register(name)}
+        {...register(name, {
+          valueAsNumber: type === 'number',
+        })}
       />
 
       {errorText && <p className='-mt-2 text-[10px] text-destructive'>{errorText}</p>}

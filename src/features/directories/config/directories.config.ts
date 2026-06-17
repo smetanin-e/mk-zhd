@@ -5,21 +5,7 @@
 import { SelectOption } from '@/src/shared/interfaces/form-select.interface';
 import { Directory } from '../types/directories.types';
 import { FIELD_TYPES } from '@/src/shared/constants/form-field-types';
-
-export enum OperationCategory {
-  PRIMARY = 'PRIMARY',
-  SECONDARY = 'SECONDARY',
-}
-
-export enum StationType {
-  INTERNAL = 'INTERNAL',
-  EXTERNAL = 'EXTERNAL',
-}
-
-export enum WagonOwnership {
-  OWN = 'OWN', // принадлежит вашему предприятию (Имеет номера разных форматов)
-  RENTED = 'RENTED', // арендованный (имеет 8-ми значный номер и зависит от типа вагона)
-}
+import { OperationCategory, StationType } from './directories.enums';
 
 const operationCategoryOptions: SelectOption[] = [
   { value: OperationCategory.PRIMARY, label: 'Основная' },
@@ -108,7 +94,7 @@ export const DIRECTORIES_CONFIG: Directory[] = [
       },
       {
         name: 'allowsParallel',
-        label: 'Параллельное выполнение',
+        label: 'Допускает параллельность',
         type: 'boolean',
         description: 'Разрешено существование других операций во время выполнения',
       },
