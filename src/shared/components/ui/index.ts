@@ -3,6 +3,7 @@ export { Input } from './input';
 export { Switch } from './switch';
 export { Separator } from './separator';
 export { Label } from './label';
+export { Toaster } from './sonner';
 
 export * from './select';
 export * from './dialog';

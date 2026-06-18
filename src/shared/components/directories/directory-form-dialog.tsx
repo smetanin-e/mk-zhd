@@ -23,6 +23,9 @@ import { directoryClientRegistry } from '@/src/features/directories/registry/dir
 import { DirectoryOptionsMap } from '@/src/features/directories/types/directory-options-map';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface DirectoryFormDialogProps {
   directory: Directory;
@@ -30,6 +33,9 @@ interface DirectoryFormDialogProps {
 }
 
 export function DirectoryFormDialog({ directory, directoryOptions }: DirectoryFormDialogProps) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
   const schema = directoryClientRegistry[directory.model].createSchema;
 
   const form = useForm({
@@ -38,12 +44,21 @@ export function DirectoryFormDialog({ directory, directoryOptions }: DirectoryFo
   });
 
   const onSubmit = async (data: FieldValues) => {
-    await createDirectoryItem(directory.model, data);
+    try {
+      await createDirectoryItem(directory.model, data);
+      setOpen(false);
+      router.refresh();
+      toast.success('Элемент справочника успешно создан!');
+    } catch (error) {
+      console.log(error);
+      //TODO (Настроить обработчик ошибок)
+      toast.error('Не удалось создать элемент справочника!');
+    }
   };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size='sm'>
+        <Button size='sm' onClick={() => setOpen(true)}>
           <PlusIcon data-icon='inline-start' />
           Добавить элемент
         </Button>
@@ -72,7 +87,9 @@ export function DirectoryFormDialog({ directory, directoryOptions }: DirectoryFo
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant='outline'>Отмена</Button>
+            <Button variant='outline' onClick={() => setOpen(false)}>
+              Отмена
+            </Button>
           </DialogClose>
           <Button form='directory-form' type='submit'>
             Сохранить
