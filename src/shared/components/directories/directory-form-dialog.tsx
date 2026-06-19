@@ -26,6 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { getErrorMessage } from '../../lib/errors/get-error-message';
 
 interface DirectoryFormDialogProps {
   directory: Directory;
@@ -46,13 +47,12 @@ export function DirectoryFormDialog({ directory, directoryOptions }: DirectoryFo
   const onSubmit = async (data: FieldValues) => {
     try {
       await createDirectoryItem(directory.model, data);
+
       setOpen(false);
       router.refresh();
       toast.success('Элемент справочника успешно создан!');
     } catch (error) {
-      console.log(error);
-      //TODO (Настроить обработчик ошибок)
-      toast.error('Не удалось создать элемент справочника!');
+      toast.error(getErrorMessage(error));
     }
   };
   return (

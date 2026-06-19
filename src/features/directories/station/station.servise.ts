@@ -1,11 +1,16 @@
 import { prisma } from '@/src/shared/lib/prisma';
-import { createStationSchema } from './station.schema';
+import { CreateStationInput, createStationSchema } from './station.schema';
+import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';
+import { logger } from '@/src/shared/lib/logger';
 
-//TODO Обернуть в try catch
-export async function createStation(data: unknown) {
-  console.log(data);
-  const validatedData = createStationSchema.parse(data);
-  return prisma.station.create({
-    data: validatedData,
-  });
+export async function createStation(data: CreateStationInput) {
+  try {
+    const validatedData = createStationSchema.parse(data);
+    return await prisma.station.create({
+      data: validatedData,
+    });
+  } catch (error) {
+    logger.error('[CREATE_STATION]', error);
+    throwActionError(error);
+  }
 }

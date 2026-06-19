@@ -1,15 +1,23 @@
+'use server';
 import { prisma } from '@/src/shared/lib/prisma';
-import { createWagonTypeSchema } from './wagon-type.schema';
+import { CreateWagonTypeInput, createWagonTypeSchema } from './wagon-type.schema';
 import { revalidatePath } from 'next/cache';
+import { logger } from '@/src/shared/lib/logger';
+import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';
 
-//TODO Обернуть в try catch
-export async function createWagonType(data: unknown) {
-  const validatedData = createWagonTypeSchema.parse(data);
-  const result = prisma.wagonType.create({
-    data: validatedData,
-  });
+export async function createWagonType(data: CreateWagonTypeInput) {
+  try {
+    const validatedData = createWagonTypeSchema.parse(data);
 
-  revalidatePath(`/directories/wagon-type`);
+    const result = await prisma.wagonType.create({
+      data: validatedData,
+    });
 
-  return result;
+    revalidatePath(`/directories/wagon-type`);
+
+    return result;
+  } catch (error) {
+    logger.error('[CREATE_WAGON_TYPE]', error);
+    throwActionError(error);
+  }
 }

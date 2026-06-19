@@ -1,10 +1,16 @@
 import { prisma } from '@/src/shared/lib/prisma';
-import { createCargoOwnerSchema } from './cargo-owner.schema';
+import { CreateCargoOwnerInput, createCargoOwnerSchema } from './cargo-owner.schema';
+import { logger } from '@/src/shared/lib/logger';
+import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';
 
-//TODO Обернуть в try catch
-export async function createCargoOwner(data: unknown) {
-  const validatedData = createCargoOwnerSchema.parse(data);
-  return prisma.cargoOwner.create({
-    data: validatedData,
-  });
+export async function createCargoOwner(data: CreateCargoOwnerInput) {
+  try {
+    const validatedData = createCargoOwnerSchema.parse(data);
+    return await prisma.cargoOwner.create({
+      data: validatedData,
+    });
+  } catch (error) {
+    logger.error('[CREATE_CARGO_OWNER]', error);
+    throwActionError(error);
+  }
 }

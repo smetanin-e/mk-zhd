@@ -1,10 +1,16 @@
 import { prisma } from '@/src/shared/lib/prisma';
-import { createCargoSchema } from './cargo.schema';
+import { CreateCargoInput, createCargoSchema } from './cargo.schema';
+import { logger } from '@/src/shared/lib/logger';
+import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';
 
-//TODO Обернуть в try catch
-export async function createCargo(data: unknown) {
-  const validatedData = createCargoSchema.parse(data);
-  return prisma.cargo.create({
-    data: validatedData,
-  });
+export async function createCargo(data: CreateCargoInput) {
+  try {
+    const validatedData = createCargoSchema.parse(data);
+    return await prisma.cargo.create({
+      data: validatedData,
+    });
+  } catch (error) {
+    logger.error('[CREATE_CARGO]', error);
+    throwActionError(error);
+  }
 }
