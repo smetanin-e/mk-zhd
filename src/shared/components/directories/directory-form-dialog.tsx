@@ -91,7 +91,7 @@ export function DirectoryFormDialog({ directory, directoryOptions }: DirectoryFo
               Отмена
             </Button>
           </DialogClose>
-          <Button form='directory-form' type='submit'>
+          <Button disabled={form.formState.isSubmitting} form='directory-form' type='submit'>
             Сохранить
           </Button>
         </DialogFooter>
