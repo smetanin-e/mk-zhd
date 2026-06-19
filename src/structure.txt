@@ -1,0 +1,116 @@
+.
+├── app
+│   ├── directories
+│   │   ├── [directoryId]
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── features
+│   └── directories
+│       ├── actions
+│       │   └── create-directory-item.action.ts
+│       ├── cargo
+│       │   ├── cargo-client.config.ts
+│       │   ├── cargo.schema.ts
+│       │   ├── cargo-server.config.ts
+│       │   └── cargo.service.ts
+│       ├── cargo-owner
+│       │   ├── cargo-owner-client.config.ts
+│       │   ├── cargo-owner.schema.ts
+│       │   ├── cargo-owner-server.config.ts
+│       │   └── cargo-owner.service.ts
+│       ├── config
+│       │   ├── directories.config.ts
+│       │   └── directories.enums.ts
+│       ├── operation-type
+│       │   ├── operation-type-client.config.ts
+│       │   ├── operation-type.schema.ts
+│       │   ├── operation-type-server.config.ts
+│       │   └── operation-type.service.ts
+│       ├── registry
+│       │   ├── directory-client-registry.ts
+│       │   └── directory-server-registry.ts
+│       ├── services
+│       │   ├── directory.repository.ts
+│       │   ├── get-directoriy.ts
+│       │   └── get-directory-select-options.ts
+│       ├── station
+│       │   ├── station-client.config.ts
+│       │   ├── station.schema.ts
+│       │   ├── station-server.config.ts
+│       │   └── station.servise.ts
+│       ├── types
+│       │   ├── directories.types.ts
+│       │   ├── directory-models.ts
+│       │   └── directory-options-map.ts
+│       ├── utils
+│       │   └── format-cell-value.ts
+│       ├── wagon
+│       │   ├── wagon-client.config.ts
+│       │   ├── wagon.schema.ts
+│       │   ├── wagon-server.config.ts
+│       │   └── wagon.service.ts
+│       ├── wagon-owner
+│       │   ├── wagon-owner-client.config.ts
+│       │   ├── wagon-owner.schema.ts
+│       │   ├── wagon-owner-server.config.ts
+│       │   └── wagon-owner.service.ts
+│       └── wagon-type
+│           ├── wagon-type-client.config.ts
+│           ├── wagon-type.schema.ts
+│           ├── wagon-type-server.config.ts
+│           └── wagon-type.service.ts
+├── shared
+│   ├── components
+│   │   ├── directories
+│   │   │   ├── direction-nav.tsx
+│   │   │   ├── directory-cell.tsx
+│   │   │   ├── directory-content.tsx
+│   │   │   └── directory-form-dialog.tsx
+│   │   ├── form
+│   │   │   ├── field-rendesr.tsx
+│   │   │   ├── form-input.tsx
+│   │   │   ├── form-select.tsx
+│   │   │   ├── form-switch.tsx
+│   │   │   └── index.ts
+│   │   ├── providers.tsx
+│   │   ├── theme-provider.tsx
+│   │   └── ui
+│   │       ├── button.tsx
+│   │       ├── dialog.tsx
+│   │       ├── field.tsx
+│   │       ├── index.ts
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── navigation-menu.tsx
+│   │       ├── select.tsx
+│   │       ├── separator.tsx
+│   │       ├── sonner.tsx
+│   │       ├── switch.tsx
+│   │       ├── table.tsx
+│   │       └── tabs.tsx
+│   ├── configs
+│   │   └── pages.config.ts
+│   ├── constants
+│   │   └── form-field-types.ts
+│   ├── hooks
+│   ├── interfaces
+│   │   └── form-select.interface.ts
+│   └── lib
+│       ├── auth
+│       │   └── password-utils.ts
+│       ├── errors
+│       │   ├── actions-error-handler.ts
+│       │   ├── app-error.ts
+│       │   └── get-error-message.ts
+│       ├── logger.ts
+│       ├── prisma.ts
+│       ├── serialize-prisma.ts
+│       └── utils.ts
+└── structure.txt
+
+31 directories, 83 files

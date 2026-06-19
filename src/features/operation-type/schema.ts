@@ -1,5 +1,5 @@
 import z from 'zod';
-import { OperationCategory } from '../config/directories.enums';
+import { OperationCategory } from '../directories/config/directories.enums';
 
 export const createOperationTypeSchema = z.object({
   name: z.string().trim().min(3, { message: 'Название станции обязательно' }).max(50),

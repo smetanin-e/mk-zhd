@@ -1,5 +1,5 @@
 import { prisma } from '@/src/shared/lib/prisma';
-import { CreateCargoOwnerInput, createCargoOwnerSchema } from './cargo-owner.schema';
+import { CreateCargoOwnerInput, createCargoOwnerSchema } from './schema';
 import { logger } from '@/src/shared/lib/logger';
 import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';
 

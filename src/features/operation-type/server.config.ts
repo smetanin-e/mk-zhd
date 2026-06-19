@@ -1,4 +1,4 @@
-import { createOperationType } from './operation-type.service';
+import { createOperationType } from './service';
 
 export const OperationTypeServerConfig = {
   createAction: createOperationType,

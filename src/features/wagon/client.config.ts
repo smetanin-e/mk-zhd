@@ -1,4 +1,4 @@
-import { createWagonSchema, updateWagonSchema } from './wagon.schema';
+import { createWagonSchema, updateWagonSchema } from './schema';
 
 export const WagonClientConfig = {
   createSchema: createWagonSchema,

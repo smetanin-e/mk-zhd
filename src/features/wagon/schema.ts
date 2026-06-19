@@ -1,5 +1,5 @@
 import z from 'zod';
-import { WagonOwnership } from '../config/directories.enums';
+import { WagonOwnership } from '../directories/config/directories.enums';
 
 const basedWagonSchema = z.object({
   typeId: z.uuid({ message: 'Некорректный формат идентификатора (UUID)' }),

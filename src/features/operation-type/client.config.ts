@@ -1,4 +1,4 @@
-import { createOperationTypeSchema } from './operation-type.schema';
+import { createOperationTypeSchema } from './schema';
 
 export const OperationTypeClientConfig = {
   createSchema: createOperationTypeSchema,

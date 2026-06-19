@@ -1,4 +1,4 @@
-import { createStationSchema } from './station.schema';
+import { createStationSchema } from './schema';
 
 export const StationClientConfig = {
   createSchema: createStationSchema,

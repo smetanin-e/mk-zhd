@@ -1,4 +1,4 @@
-import { createCargo } from './cargo.service';
+import { createCargo } from './service';
 
 export const CargoServerConfig = {
   createAction: createCargo,

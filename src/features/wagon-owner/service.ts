@@ -1,5 +1,5 @@
 import { prisma } from '@/src/shared/lib/prisma';
-import { CreateWagonOwnerInput, createWagonOwnerSchema } from './wagon-owner.schema';
+import { CreateWagonOwnerInput, createWagonOwnerSchema } from './schema';
 import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';
 import { logger } from '@/src/shared/lib/logger';
 

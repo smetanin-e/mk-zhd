@@ -1,5 +1,5 @@
 import { prisma } from '@/src/shared/lib/prisma';
-import { CreateStationInput, createStationSchema } from './station.schema';
+import { CreateStationInput, createStationSchema } from './schema';
 import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';
 import { logger } from '@/src/shared/lib/logger';
 

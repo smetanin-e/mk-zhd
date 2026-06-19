@@ -1,4 +1,4 @@
-import { createStation } from './station.servise';
+import { createStation } from './servise';
 
 export const StationServerConfig = {
   createAction: createStation,

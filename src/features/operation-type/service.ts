@@ -1,5 +1,5 @@
 import { prisma } from '@/src/shared/lib/prisma';
-import { CreateOperationTypeInput, createOperationTypeSchema } from './operation-type.schema';
+import { CreateOperationTypeInput, createOperationTypeSchema } from './schema';
 import { serializePrisma } from '@/src/shared/lib/serialize-prisma';
 import { revalidatePath } from 'next/cache';
 import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';

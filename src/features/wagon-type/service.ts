@@ -1,6 +1,6 @@
 'use server';
 import { prisma } from '@/src/shared/lib/prisma';
-import { CreateWagonTypeInput, createWagonTypeSchema } from './wagon-type.schema';
+import { CreateWagonTypeInput, createWagonTypeSchema } from './schema';
 import { revalidatePath } from 'next/cache';
 import { logger } from '@/src/shared/lib/logger';
 import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';

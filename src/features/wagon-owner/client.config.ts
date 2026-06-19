@@ -1,4 +1,4 @@
-import { createWagonOwnerSchema } from './wagon-owner.schema';
+import { createWagonOwnerSchema } from './schema';
 
 export const WagonOwnerClientConfig = {
   createSchema: createWagonOwnerSchema,

@@ -1,4 +1,4 @@
-import { createWagonOwner } from './wagon-owner.service';
+import { createWagonOwner } from './service';
 
 export const WagonOwnerServerConfig = {
   createAction: createWagonOwner,

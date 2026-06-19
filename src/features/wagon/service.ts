@@ -1,5 +1,5 @@
 import { prisma } from '@/src/shared/lib/prisma';
-import { CreateWagonInput, createWagonSchema } from './wagon.schema';
+import { CreateWagonInput, createWagonSchema } from './schema';
 import { serializePrisma } from '@/src/shared/lib/serialize-prisma';
 import { throwActionError } from '@/src/shared/lib/errors/actions-error-handler';
 import { logger } from '@/src/shared/lib/logger';
